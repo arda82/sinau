@@ -3,37 +3,40 @@ import sqlite3
 from datetime import date
 from table import Table
 
+
 def count_days():
     today = date.today()
-    print(f"Today: {today.strftime('%d, %m, %Y')}")
-
+    print(f"Sekarang tanggal: {today.strftime('%d, %m, %Y')}\n")
+    
     while True:
         try:
-            print()
-            start_input = input("Enter start date (DD,MM,YYYY): ")
+            # Input tanggal awal
+            start_input = input("Masukan tanggal mulai (DD,MM,YYYY): ")
             day, month, year = map(int, start_input.split(','))
-            start_date = date(year, month, day)  
+            start_date = date(year, month, day)
 
-            end_input = input("Enter end date (DD,MM,YYYY): ")
-            if end_input.strip() == "":
+            # Input tanggal akhir
+            end_input = input("Masukan tanggal akhir (DD,MM,YYYY) atau tekan Enter untuk tanggal sekarang: ").strip()
+            if not end_input:  # Jika pengguna tidak memasukkan tanggal akhir
                 end_date = today
             else:
                 day, month, year = map(int, end_input.split(','))
-                end_date = date(year, month, day) 
+                end_date = date(year, month, day)
 
-            if start_date > end_date:
-                print("Start date cannot be after end date. Please try again.")
-                continue
+            # Hitung selisih hari (bisa bernilai negatif jika start_date > end_date)
+            difference = (end_date - start_date).days
 
-            break
+            # Tampilkan hasil
+            print(f"\nSelisih {difference} hari dari {start_date.strftime('%d, %m, %Y')} and {end_date.strftime('%d, %m, %Y')}.\n")
+
+            # Tanya apakah pengguna ingin melanjutkan
+            choice_exit = input("Hitung lagi? (y/n): ").strip().lower()
+            if choice_exit == 'n':
+                print("Program berakhir. Bye!")
+                break
 
         except ValueError:
-            print("Invalid date format. Please enter dates in DD,MM,YYYY format separated by commas.")
-
-    difference = end_date - start_date
-    days = difference.days
-
-    print(f"There are {days} days")
+            print("Format tuliasan salah. masukan data dengan format DD,MM,YYYY dipisah koma.\n")
 
 def get_all_tables(data_file):
     try:
