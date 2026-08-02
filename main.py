@@ -1,4 +1,4 @@
-9import sqlite3
+import sqlite3
 import view_data
 import create_tab
 import update
